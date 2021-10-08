@@ -1,0 +1,20 @@
+#To add Babel-Cli
+npm install -g babel-cli@6.24.1
+
+#To Initialize the Project and Generate package.json and yarn.lock
+yarn -init
+
+#To add babel-env (Consisiting of various versions of ES in a single unit)
+yarn add babel-env@6.24.1
+
+#To add babel-react
+yarn add babel-react@6.24.1
+
+#To Install the live-server
+npm install -g live-server
+
+#To compile the JSX to normal JS using babel
+babel public/src/App.js --out-file= public/scripts/App.js --presets=env,react
+
+#To start the Live-Server
+live-server public
