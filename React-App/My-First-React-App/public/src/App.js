@@ -1,12 +1,12 @@
 //JavaScript XML
 
-var book = {
+const book = {
     title : 'The Immortals of Meluah',
     subtitle : 'Where a man becomes a God',
     options: ['One','Two','Three']
 };
 
-var template = (
+const template = (
     <div>
     <h1>{book.title}</h1>
      {book.subtitle && <p>{book.subtitle}</p>}
@@ -23,7 +23,7 @@ function displayOptions(){
     }
 }
 
-var templateTwo = (
+const templateTwo = (
 <div>
     <h1>
     Abishek Dinesh
@@ -38,6 +38,6 @@ var templateTwo = (
 </div>
 );
 
-var docDiv = document.getElementById('react-div');
+const docDiv = document.getElementById('react-div');
 
 ReactDOM.render(template,docDiv);
