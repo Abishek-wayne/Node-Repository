@@ -1,65 +1,50 @@
-//JavaScript XML
-
-let book = {
-    title: 'The Immortals of Meluah',
-    subtitle: 'Where a man becomes a God',
-    options: []
-};
-
-const onSubmitfunction = (e) => {
-
-    e.preventDefault();
-    let value = e.target.elements.option.value;
-
-    if (value) {
-        book.options.push(value);
-        e.target.elements.option.value = '';
-
-        renderOptions();
+class Header extends React.Component {
+    render() {
+        return (
+            <div>
+                <h1>This is the title!</h1>
+                <h3>This is a sample Sub-Title</h3>
+            </div>
+        );
     }
 }
 
-function displayOptions() {
-    if (book.options && book.options.length > 0) {
-        return <p>Here are your options{book.options}</p>;
-    } else {
-        return <p>There are no options available :(</p>;
+class Action extends React.Component {
+    render() {
+        return (
+            <button>Generate Random things!</button>
+        );
     }
 }
 
-const removeOptions = () => {
-    book.options = [];
-    renderOptions();
+class Options extends React.Component {
+    render() {
+        return (
+            <div>
+                <ol>
+                    <li>This is the first option</li>
+                    <li>This is the Second Option</li>
+                </ol>
+            </div>
+        );
+    }
 }
 
-const reactDiv = document.getElementById('react-div');
-
-const renderOptions = () => {
-    const template = (
-        <div>
-            <h1>{book.title}</h1>
-            {book.subtitle && <p>{book.subtitle}</p>}
-            <p>{book.options.length}</p>
-            {book.options && book.options.length > 0 ? 'Here are your options' : 'No Options'}
-            <p><button onClick={removeOptions}>Remove All Options</button></p>
-            <form onSubmit={onSubmitfunction}>
-                <input type='text' className='optionText' name='option' />
-                <button>Add Option</button>
-            </form>
-            <ol>
-                {
-                    book.options.map((option) => {
-                        return <li key={option}>Option is {option}</li>
-                    })
-                }
-            </ol>
-        </div>
-    );
-
-    ReactDOM.render(template, reactDiv);
+class AddOption extends React.Component {
+    render() {
+        return (
+            <button>Click to add Options</button>
+        );
+    }
 }
 
-renderOptions();
-// $(() => {
-//     $("#add").click(() => console.log('Addition Button Clicked using jQuery!'));
-// } );
+const jsx = (
+    <div>
+        <Header />
+        <Action />
+        <Options />
+        <AddOption />
+    </div>
+);
+
+ReactDOM.render(jsx, document.getElementById('react-div'));
