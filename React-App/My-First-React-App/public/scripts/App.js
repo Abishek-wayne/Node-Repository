@@ -26,12 +26,12 @@ var Header = function (_React$Component) {
                 React.createElement(
                     'h1',
                     null,
-                    'This is the title!'
+                    this.props.title
                 ),
                 React.createElement(
                     'h3',
                     null,
-                    'This is a sample Sub-Title'
+                    this.props.subtitle
                 )
             );
         }
@@ -50,11 +50,16 @@ var Action = function (_React$Component2) {
     }
 
     _createClass(Action, [{
+        key: 'generateRandom',
+        value: function generateRandom() {
+            alert('Ouch! You clicked me!');
+        }
+    }, {
         key: 'render',
         value: function render() {
             return React.createElement(
                 'button',
-                null,
+                { onClick: this.generateRandom },
                 'Generate Random things!'
             );
         }
@@ -73,24 +78,28 @@ var Options = function (_React$Component3) {
     }
 
     _createClass(Options, [{
+        key: 'removeOptions',
+        value: function removeOptions() {
+            alert('Remove Options');
+        }
+    }, {
         key: 'render',
         value: function render() {
             return React.createElement(
                 'div',
                 null,
                 React.createElement(
-                    'ol',
+                    'p',
                     null,
-                    React.createElement(
-                        'li',
-                        null,
-                        'This is the first option'
-                    ),
-                    React.createElement(
-                        'li',
-                        null,
-                        'This is the Second Option'
-                    )
+                    'Options Component here!'
+                ),
+                this.props.options && this.props.options.map(function (option) {
+                    return React.createElement(Option, { key: option, optionText: option });
+                }),
+                React.createElement(
+                    'button',
+                    { onClick: this.removeOptions },
+                    'Remove All'
                 )
             );
         }
@@ -99,8 +108,35 @@ var Options = function (_React$Component3) {
     return Options;
 }(React.Component);
 
-var AddOption = function (_React$Component4) {
-    _inherits(AddOption, _React$Component4);
+var Option = function (_React$Component4) {
+    _inherits(Option, _React$Component4);
+
+    function Option() {
+        _classCallCheck(this, Option);
+
+        return _possibleConstructorReturn(this, (Option.__proto__ || Object.getPrototypeOf(Option)).apply(this, arguments));
+    }
+
+    _createClass(Option, [{
+        key: 'render',
+        value: function render() {
+            return React.createElement(
+                'div',
+                null,
+                React.createElement(
+                    'p',
+                    null,
+                    this.props.optionText
+                )
+            );
+        }
+    }]);
+
+    return Option;
+}(React.Component);
+
+var AddOption = function (_React$Component5) {
+    _inherits(AddOption, _React$Component5);
 
     function AddOption() {
         _classCallCheck(this, AddOption);
@@ -109,12 +145,31 @@ var AddOption = function (_React$Component4) {
     }
 
     _createClass(AddOption, [{
+        key: 'addOption',
+        value: function addOption(e) {
+            e.preventDefault();
+
+            var value = e.target.elements.optionValue.value;
+            if (value) {
+                alert('You Have Added a new element in the Array! ' + value);
+            }
+        }
+    }, {
         key: 'render',
         value: function render() {
             return React.createElement(
-                'button',
+                'div',
                 null,
-                'Click to add Options'
+                React.createElement(
+                    'form',
+                    { onSubmit: this.addOption },
+                    React.createElement('input', { type: 'text', name: 'optionValue' }),
+                    React.createElement(
+                        'button',
+                        null,
+                        'Click to add Options'
+                    )
+                )
             );
         }
     }]);
@@ -122,13 +177,35 @@ var AddOption = function (_React$Component4) {
     return AddOption;
 }(React.Component);
 
-var jsx = React.createElement(
-    'div',
-    null,
-    React.createElement(Header, null),
-    React.createElement(Action, null),
-    React.createElement(Options, null),
-    React.createElement(AddOption, null)
-);
+var SampleApp = function (_React$Component6) {
+    _inherits(SampleApp, _React$Component6);
 
-ReactDOM.render(jsx, document.getElementById('react-div'));
+    function SampleApp() {
+        _classCallCheck(this, SampleApp);
+
+        return _possibleConstructorReturn(this, (SampleApp.__proto__ || Object.getPrototypeOf(SampleApp)).apply(this, arguments));
+    }
+
+    _createClass(SampleApp, [{
+        key: 'render',
+        value: function render() {
+
+            var title = 'New Title!';
+            var subtitle = 'Sample Sub-Title';
+            var options = ['Uno Numero', 'Da Numero', 'Thres Numero'];
+
+            return React.createElement(
+                'div',
+                null,
+                React.createElement(Header, { title: title, subtitle: subtitle }),
+                React.createElement(Action, null),
+                React.createElement(Options, { options: options }),
+                React.createElement(AddOption, null)
+            );
+        }
+    }]);
+
+    return SampleApp;
+}(React.Component);
+
+ReactDOM.render(React.createElement(SampleApp, null), document.getElementById('react-div'));
