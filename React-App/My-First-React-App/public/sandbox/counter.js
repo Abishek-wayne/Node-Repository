@@ -12,6 +12,25 @@ class Counter extends React.Component {
         };
     }
 
+    componentDidMount() {
+        const num = localStorage.getItem('count');
+        const count = parseInt(num);
+
+        console.log('Num & Count ', num, count);
+
+        if (!isNaN(count)) {
+            this.setState(() => ({ count }));
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+
+        if (prevState.count !== this.state.count) {
+            localStorage.setItem('count', this.state.count);
+        }
+        console.log('ComponentDidUpdated called ');
+    }
+
     render() {
         return (
             <div>
@@ -35,27 +54,27 @@ class Counter extends React.Component {
         console.log(this);
         console.log('Handle Minus One Clicked!');
 
-        this.setState( (prevState) => {
+        this.setState((prevState) => {
             return {
-                count : prevState.count - 1
+                count: prevState.count - 1
             }
-        } )
+        })
     }
     handleReset() {
         console.log(this);
         console.log('Handle Reset One Clicked!');
 
-        this.setState( () => {
+        this.setState(() => {
             return {
-                count : 0
+                count: 0
             };
-        } )
+        })
     }
 
 }
 
 Counter.defaultProps = {
-    count : 0
+    count: 0
 };
 
 ReactDOM.render(<Counter />, document.getElementById('react-div'));

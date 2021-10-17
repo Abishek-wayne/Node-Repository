@@ -8,7 +8,7 @@ const Header = (props) => {
 }
 
 Header.defaultProps = {
-    title : 'Some Default Title'
+    title: 'Some Default Title'
 };
 
 const Action = (props) => {
@@ -22,7 +22,8 @@ const Action = (props) => {
 const Options = (props) => {
     return (
         <div>
-            {props.options && props.options.map((option) => <Option key={option} optionText={option} />
+            {props.options && props.options.map((option) => <Option key={option} optionText={option}
+                handleRemoveOption={props.handleRemoveOption} />
             )}
             <button onClick={props.handleRemove}>Remove All</button>
         </div>
@@ -33,6 +34,7 @@ const Option = (props) => {
     return (
         <div>
             <p>{props.optionText}</p>
+            <button onClick={(e) => props.handleRemoveOption(props.optionText)}>Remove</button>
         </div>
     );
 }
@@ -57,11 +59,7 @@ class AddOption extends React.Component {
 
         e.target.elements.optionValue.value = '';
 
-        this.setState(() => {
-            return {
-                error //Equivalent to error:error
-            }
-        });
+        this.setState(() => ({ error }));
 
     }
     render() {
@@ -85,18 +83,52 @@ class SampleApp extends React.Component {
         this.handleRemoveAll = this.handleRemoveAll.bind(this);
         this.handleIndecision = this.handleIndecision.bind(this);
         this.handleAddition = this.handleAddition.bind(this);
+        this.handleRemoveOption = this.handleRemoveOption.bind(this);
 
         this.state = {
             options: this.props.options
         }
     }
+    componentDidMount() {
+        console.log('ComponentDidMount Called');
+
+        try {
+            const optionsString = localStorage.getItem('options');
+
+            if (optionsString) {
+                const options = JSON.parse(optionsString);
+
+                this.setState(() => ({ options }));
+            }
+        }
+        catch (e) {
+
+        }
+    }
+    componentDidUpdate(prevProps, prevState) {
+
+        const options = this.state.options;
+
+        if (this.state.options !== prevState.options.length) {
+            const json = JSON.stringify(options);
+
+            localStorage.setItem('options', json);
+            console.log('ComponentDidUpdate');
+        }
+    }
+    componentWillUnmount() {
+        console.log('Component Unmounted');
+    }
 
     handleRemoveAll() {
-        this.setState(() => {
-            return {
-                options: []
-            };
-        })
+        this.setState(() => ({ options: [] }));
+    }
+
+    handleRemoveOption(optionToremove) {
+        console.log('Handle Remove Option called!', optionToremove);
+        this.setState((prevState) => ({ options: prevState.options.filter((option) => optionToremove !== option) }));
+
+        console.log('Options Array after filtering', this.state.options);
     }
 
     handleAddition(option) {
@@ -107,11 +139,7 @@ class SampleApp extends React.Component {
             return 'Please enter a valid Option';
         }
 
-        this.setState((prevState) => {
-            return {
-                options: prevState.options.concat(option)
-            };
-        })
+        this.setState((prevState) => ({ options: prevState.options.concat(option) }));
     }
 
     handleIndecision() {
@@ -128,7 +156,12 @@ class SampleApp extends React.Component {
             <div>
                 <Header title={title} subtitle={subtitle} />
                 <Action hasOptions={this.state.options.length > 0} handleClick={this.handleIndecision} />
-                <Options options={this.state.options} handleRemove={this.handleRemoveAll} />
+
+                {this.state.options.length === 0 && <p>Please Add Options to continue</p>}
+                <Options options={this.state.options}
+                    handleRemove={this.handleRemoveAll}
+                    handleRemoveOption={this.handleRemoveOption} />
+
                 <AddOption handleAddition={this.handleAddition} />
             </div>
         );
@@ -136,7 +169,7 @@ class SampleApp extends React.Component {
 }
 
 SampleApp.defaultProps = {
-    options : ['Default Value 1', 'Default Value 2']
+    options: ['Default Value 1', 'Default Value 2']
 }
 
 ReactDOM.render(<SampleApp />, document.getElementById('react-div'));

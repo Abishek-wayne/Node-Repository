@@ -29,6 +29,29 @@ var Counter = function (_React$Component) {
     }
 
     _createClass(Counter, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var num = localStorage.getItem('count');
+            var count = parseInt(num);
+
+            console.log('Num & Count ', num, count);
+
+            if (!isNaN(count)) {
+                this.setState(function () {
+                    return { count: count };
+                });
+            }
+        }
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate(prevProps, prevState) {
+
+            if (prevState.count !== this.state.count) {
+                localStorage.setItem('count', this.state.count);
+            }
+            console.log('ComponentDidUpdated called ');
+        }
+    }, {
         key: 'render',
         value: function render() {
             return React.createElement(
