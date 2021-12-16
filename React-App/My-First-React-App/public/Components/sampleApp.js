@@ -1,37 +1,34 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { Header } from "../Components/Header";
-import {Action} from "../Components/Action";
-import { Options } from "../Components/Options";
-import {AddOption} from "../Components/AddOption"
+import { Header } from "./Header";
+import {Action} from "./Action";
+import { Options } from "./Options";
+import {AddOption} from "./AddOption"
+import { OptionModal } from "./OptionModal";
 
-class SampleApp extends React.Component {
+export class SampleApp extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.handleRemoveAll = this.handleRemoveAll.bind(this);
-        this.handleIndecision = this.handleIndecision.bind(this);
-        this.handleAddition = this.handleAddition.bind(this);
-        this.handleRemoveOption = this.handleRemoveOption.bind(this);
-
-        this.state = {
-            options: []
-        }
+    state = {
+        options : [],
+        selectedOption : undefined
     }
 
-    handleRemoveAll() {
+    handleRemoveAll= () => {
         this.setState(() => ({ options: [] }));
     }
 
-    handleRemoveOption(optionToremove) {
+    handleRemoveSelectedoption = () => {
+        this.setState(() => ({ selectedOption: undefined }) )
+        console.log('Remove Selected Option triggered');
+    }
+
+    handleRemoveOption = (optionToremove) => {
         console.log('Handle Remove Option called!', optionToremove);
         this.setState((prevState) => ({ options: prevState.options.filter((option) => optionToremove !== option) }));
 
         console.log('Options Array after filtering', this.state.options);
     }
 
-    handleAddition(option) {
+    handleAddition = (option) => {
 
         if (option && this.state.options.indexOf(option) > -1) {
             return 'Value Already exists in array';
@@ -42,12 +39,15 @@ class SampleApp extends React.Component {
         this.setState((prevState) => ({ options: prevState.options.concat(option) }));
     }
 
-    handleIndecision() {
+    handleIndecision = () => {
         const randomNo = Math.floor(Math.random() * this.state.options.length);
-        alert(this.state.options[randomNo]);
+        
+        this.setState( () =>({
+            selectedOption : this.state.options[randomNo]
+        }));
     }
 
-    render() {
+    render = () => {
 
         const title = 'New Title from Component!';
         const subtitle = 'Sample Sub-Title';
@@ -62,10 +62,15 @@ class SampleApp extends React.Component {
                     handleRemove={this.handleRemoveAll}
                     handleRemoveOption={this.handleRemoveOption} />
 
-                <AddOption handleAddition={this.handleAddition} />
+                <AddOption handleAddition={this.handleAddition} /> 
+                <OptionModal 
+                options={!!this.state.selectedOption} 
+                selectedOption={this.state.selectedOption}
+                removeSelectedOption = {this.handleRemoveSelectedoption}
+                />
             </div>
         );
     }
 }
 
-ReactDOM.render(<SampleApp />, document.getElementById('react-div'));
+//ReactDOM.render(<SampleApp />, document.getElementById('react-div'));

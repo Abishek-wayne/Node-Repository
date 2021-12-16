@@ -1,8 +1,7 @@
 import React from "react";
 import {Option} from "../Components/Option"
 
-const Options = (props) => {
-    return (
+const Options = (props) => (
         <div>
             {props.options && props.options.map((option) => <Option key={option} optionText={option}
                 handleRemoveOption={props.handleRemoveOption} />
@@ -10,6 +9,5 @@ const Options = (props) => {
             <button onClick={props.handleRemove}>Remove All</button>
         </div>
     );
-}
 
 export {Options};
