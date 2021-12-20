@@ -49,20 +49,32 @@ export class SampleApp extends React.Component {
 
     render = () => {
 
-        const title = 'New Title from Component!';
-        const subtitle = 'Sample Sub-Title';
+        const title = 'Indecision App';
+        const subtitle = 'Put your life in the hands of the computer';
 
         return (
             <div>
-                <Header title={title} subtitle={subtitle} />
-                <Action hasOptions={this.state.options.length > 0} handleClick={this.handleIndecision} />
+                <Header 
+                title={title} 
+                subtitle={subtitle} />
+
+                <div className="container">
+                
+                <Action 
+                hasOptions={this.state.options.length > 0} 
+                handleClick={this.handleIndecision} />
 
                 {this.state.options.length === 0 && <p>Please Add Options to continue</p>}
-                <Options options={this.state.options}
-                    handleRemove={this.handleRemoveAll}
-                    handleRemoveOption={this.handleRemoveOption} />
+                
+                <Options 
+                options={this.state.options}
+                handleRemove={this.handleRemoveAll}
+                handleRemoveOption={this.handleRemoveOption} />
 
-                <AddOption handleAddition={this.handleAddition} /> 
+                <AddOption 
+                handleAddition={this.handleAddition} /> 
+                </div>
+
                 <OptionModal 
                 options={!!this.state.selectedOption} 
                 selectedOption={this.state.selectedOption}
