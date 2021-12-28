@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { ExpenseHome } from '../components/Dashboard';
 import { createExpensepage } from '../components/CreateExpense';
-import { editExpensepage } from '../components/EditExpense';
+import { EditExpensepage } from '../components/EditExpense';
 import { helpExpensepage } from '../components/Help';
 import { notFoundpage } from '../components/NotFound';
 
@@ -15,7 +15,7 @@ const AppRouter = () => {
                 <Routes>
                     <Route path="/" element={ExpenseHome} />
                     <Route path="/create" element={createExpensepage} />
-                    <Route path="/edit" element={editExpensepage} />
+                    <Route path="/edit" element = {<EditExpensepage/>} />
                     <Route path="/help" element={helpExpensepage} />
                     <Route path="*" element={notFoundpage} />
                 </Routes>

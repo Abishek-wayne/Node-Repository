@@ -1,7 +1,16 @@
 import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 
-const editExpensepage = (
-    <p>This is edit Expense page</p>
-);
+const EditExpensepage = (props) => {
 
-export {editExpensepage};
+    let [params] = useSearchParams();
+
+    console.log(props);
+    console.log(params);
+
+    return (
+        <p>This is edit Expense page with id: {params.getAll("id")}</p>
+    );
+}
+
+export { EditExpensepage };
